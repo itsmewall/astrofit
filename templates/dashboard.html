@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividades</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            width: 100%;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .logout-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .edit-btn, .delete-btn {
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .edit-btn {
+            background-color: #007bff;
+            color: #fff;
+            margin-right: 5px;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ name }}, Bem-vindo!</h1>
+
+        <h2>Adicione sua atividade</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="activity_type">Tipo da atividade</label>
+                {{ form.activity_type(size=32, class="form-control") }}
+                {% for error in form.activity_type.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="duration">Duração (minutos)</label>
+                {{ form.duration(size=32, class="form-control") }}
+                {% for error in form.duration.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Adicionar Atividade</button>
+        </form>
+
+        <h2>Histórico de Atividades</h2>
+        <ul>
+            {% for activity in activities %}
+                <li>
+                    <div>
+                        {{ activity.activity_type }} - {{ activity.duration }} minutos
+                    </div>
+                    <div>
+                        <a href="{{ url_for('edit_activity', activity_id=activity.id) }}" class="edit-btn">Editar</a>
+                        <form action="{{ url_for('delete_activity', activity_id=activity.id) }}" method="post" style="display: inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="delete-btn">Remover</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        
+        <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+    </div>
+</body>
+</html>
