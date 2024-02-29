@@ -1,5 +1,5 @@
 flask
-pysqlite
+sqlite3
 flask_login
 flask_sqlalchemy
 flask_wtf
