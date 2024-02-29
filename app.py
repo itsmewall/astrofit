@@ -164,4 +164,6 @@ def profile(username):
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.config['DEBUG'] = False
+    app.config['SECRET_KEY'] = 'bigtesto'
+    app.run()
