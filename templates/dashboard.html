@@ -13,12 +13,10 @@
             padding: 0;
         }
         .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 30px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #fff;
         }
         h1, h2 {
             text-align: center;
@@ -47,16 +45,20 @@
             border-radius: 5px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
         .logout-link {
             display: block;
             text-align: center;
             margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
         }
         .edit-btn, .delete-btn {
             padding: 5px 10px;
             border-radius: 3px;
             cursor: pointer;
+            text-decoration: none;
         }
         .edit-btn {
             background-color: #007bff;
@@ -66,6 +68,9 @@
         .delete-btn {
             background-color: #dc3545;
             color: #fff;
+        }
+        .btn-container {
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -90,7 +95,9 @@
                     <span style="color: red;">{{ error }}</span>
                 {% endfor %}
             </div>
-            <button type="submit" class="btn btn-primary">Adicionar Atividade</button>
+            <div class="btn-container">
+                <button type="submit" class="btn btn-primary">Adicionar Atividade</button>
+            </div>
         </form>
 
         <h2>Histórico de Atividades</h2>
@@ -110,6 +117,10 @@
                 </li>
             {% endfor %}
         </ul>
+        
+        <div class="btn-container">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Voltar para Home</a>
+        </div>
         
         <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
     </div>

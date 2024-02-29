@@ -17,11 +17,27 @@
         }
 
         .card {
-            width: 300px;
-            padding: 20px;
+            width: 100%;
+            max-width: 320px;
+            padding: 30px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             background-color: #fff;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 500;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .card p {
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
         }
 
         .input-field {
@@ -30,32 +46,57 @@
 
         .input-field input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
+            box-sizing: border-box;
         }
 
         .button {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 4px;
             font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         .button:hover {
             background-color: #0056b3;
+        }
+
+        /* Media queries para dispositivos móveis */
+        @media only screen and (max-width: 900px) {
+            .card {
+                padding: 20px;
+            }
+
+            .card h2 {
+                font-size: 20px;
+            }
+
+            .card p {
+                font-size: 14px;
+            }
+
+            .input-field input {
+                font-size: 14px;
+            }
+
+            .button {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="card">
         <h2>Registrar</h2>
-        <P>Crie uma senha fácil, não vai ter como recuperar se você esquecer...</P>
+        <p>Crie uma senha fácil, não vai ter como recuperar se você esquecer...</p>
         <form action="" method="post">
             {{ form.hidden_tag() }}
             <div class="input-field">

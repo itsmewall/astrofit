@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AstroFit Home</title>
+    <title>{{ user.username }}'s Profile</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -72,10 +72,10 @@
             margin-bottom: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        li .username {
+        li .activity-type {
             font-weight: bold;
         }
-        li .activity-count {
+        li .duration {
             background-color: #007aff;
             color: white;
             padding: 5px 10px;
@@ -90,18 +90,9 @@
             position: fixed;
             bottom: 0;
         }
-        .first-place {
-            background-color: #ffd700; /* ouro */
-        }
-        .second-place {
-            background-color: #c0c0c0; /* prata */
-        }
-        .third-place {
-            background-color: #cd7f32; /* bronze */
-        }
 
-          /* Mídia query para celulares */
-          @media (max-width: 768px) {
+         /* Mídia query para celulares */
+         @media (max-width: 768px) {
             header {
                 padding: 0;
             }
@@ -127,27 +118,22 @@
 </head>
 <body>
     <header>
-        <h1>Bem-vindo ao Desafio BIgTesto</h1>
+        <h1>Perfil do {{ user.username }}</h1>
         <nav>
             <ul>
-                {% if not current_user.is_authenticated %}
-                    <li><a href="{{ url_for('login') }}">Login</a></li>
-                    <li><a href="{{ url_for('register') }}">Registrar</a></li>
-                {% endif %}
-                <li><a href="{{ url_for('dashboard') }}">Suas Atividades</a></li>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <h1>Ranking do Desafio</h1>
+        <h1>{{ user.username }}'s Activities</h1>
         <ol>
-            {% for user, activity_count in user_activity_counts %}
-                <li class="{% if loop.index == 1 %}first-place{% elif loop.index == 2 %}second-place{% elif loop.index == 3 %}third-place{% endif %}">
-                    <span>{{ loop.index }}º</span>
-                    <a href="{{ url_for('profile', username=user.username) }}">
-                        <span class="username">{{ user.username }}</span>
-                    </a>
-                    <span class="activity-count">{{ activity_count }} atividades</span>
+            {% for activity in user_activities %}
+                <li>
+                    <span class="activity-type">{{ activity.activity_type }}</span>
+                    <span class="duration">{{ activity.duration }} minutes</span>
                 </li>
             {% endfor %}
         </ol>

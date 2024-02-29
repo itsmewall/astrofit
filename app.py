@@ -91,7 +91,7 @@ def login():
             login_user(user)
             return redirect(url_for('index'))
         else:
-            flash('Cê errou a senha ou o usuário, amigão.')
+            flash('Invalid username or password.')
     return render_template('login.html', form=form)
 
 @app.route('/logout')
@@ -113,7 +113,7 @@ def dashboard():
         )
         db.session.add(new_activity)
         db.session.commit()
-        flash('Atividade adicionada com sucesso! Forçaaaaaaa Frango!')
+        flash('Activity added successfully!')
 
     activities = Activity.query.filter_by(user_id=current_user.id).all()
     return render_template('dashboard.html', name=current_user.username, form=form, activities=activities)
@@ -123,7 +123,7 @@ def dashboard():
 def edit_activity(activity_id):
     activity = Activity.query.get_or_404(activity_id)
     if activity.user_id != current_user.id:
-        flash('Não é permitido que você edite essa atividade.')
+        flash('You are not allowed to edit this activity.')
         return redirect(url_for('dashboard'))
 
     form = ActivityForm()
@@ -131,7 +131,7 @@ def edit_activity(activity_id):
         activity.activity_type = form.activity_type.data
         activity.duration = form.duration.data
         db.session.commit()
-        flash('Editado com sucesso, só não vale roubar!')
+        flash('Edited successfully!')
         return redirect(url_for('dashboard'))
     elif request.method == 'GET':
         form.activity_type.data = activity.activity_type
@@ -143,13 +143,24 @@ def edit_activity(activity_id):
 def delete_activity(activity_id):
     activity = Activity.query.get_or_404(activity_id)
     if activity.user_id != current_user.id:
-        flash('Não é permitido que você exclua essa atividade.')
+        flash('You are not allowed to delete this activity.')
         return redirect(url_for('dashboard'))
 
     db.session.delete(activity)
     db.session.commit()
-    flash('Atividade excluída com sucesso!')
+    flash('Activity deleted successfully!')
     return redirect(url_for('dashboard'))
+
+@app.route('/profile/<username>')
+@login_required
+def profile(username):
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        flash('Usuário não encontrado.', 'error')
+        return redirect(url_for('index'))
+
+    user_activities = user.activities
+    return render_template('profile.html', user=user, user_activities=user_activities)
 
 
 if __name__ == '__main__':
